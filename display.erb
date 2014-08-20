@@ -33,5 +33,6 @@ Signal: ${wireless_link_qual_perc <%= n[:iface] %>} ${wireless_link_bar <%= n[:i
 end %>
 Down: $color${downspeed <%= n[:iface] %>}/s ${alignr}Up: ${upspeed <%= n[:iface] %>}/s
 ${downspeedgraph <%= n[:iface] %> 25,140 eee8d5 d33682} ${alignr}${upspeedgraph <%= n[:iface] %> 25,140 eee8d5 2aa198}$color
-Total: ${totaldown <%= n[:iface] %>} ${alignr}Total: ${totalup <%= n[:iface] %>}<%
-end %>
+Total: ${totaldown <%= n[:iface] %>} ${alignr}Total: ${totalup <%= n[:iface] %>}
+<% end %>
+

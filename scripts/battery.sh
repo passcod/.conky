@@ -29,7 +29,6 @@ else
 fi
 
 
-GRAPH=$(spark 0 ${PERMIL} 1000 | awk '{print substr($0,2,1)}')
 [ -z "$PERMIL" ] && exit
 
 if echo "$1" | grep -q "integer"; then
@@ -39,5 +38,5 @@ elif echo "$1" | grep -q "float"; then
 elif echo "$1" | grep -q "state"; then
     battery_state
 else
-  echo "${COLOR}$(dc -e "1k $PERMIL 10/p")${ICON} ${GRAPH}"
+  echo "${COLOR}$(dc -e "1k $PERMIL 10/p")${ICON}"
 fi
