@@ -19,33 +19,11 @@ def times
   end
 end
 
-def nets(face = nil)
-  if face.nil?
-    (nets('netctl-auto') + nets('netctl'))
-      .uniq
-      .map { |n|
-        {
-          name: n,
-          iface: IO
-            .read('/etc/netctl/' + n)
-            .split("\n")
-            .select { |l| l.split('=').first == 'Interface' }
-            .first
-            .split('=')
-            .last,
-          kind: {
-            'w' => 'wireless',
-            'e' => 'wired',
-            'u' => 'tether'
-          }[n[0]]
-        }
-      }
-  else
-    `#{face} list`
-      .split("\n")
-      .reject { |i| i[0] != '*' }
-      .map { |i| i.split.last }
-  end
+def nets
+  `nmcli dev`.split("\n").grep(/\sconnected/).map { |conn|
+    conn = conn.split
+    {iface: conn[0], kind:  conn[1]}
+  }
 end
 
 rc = %w[lua config display]
