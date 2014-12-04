@@ -1,39 +1,40 @@
 TEXT<% format = "%a %b %e %H:%M:%S" %>
-${color}${exec date +"<%= format %> [%y%V%u]"} ${alignr} ${exec uptime | grep -oP '(?<=up\s)(.(?!\s\s))+'} up
-${exec TZ='<%= times.last %>' date +"<%= format %> [<%= times.last.split('/').last %>]"} ${alignr} ${battery_time} bat
+${color}${exec date +"<%= format %>"} ${alignr} [Local]
+${exec TZ='<%= times.last %>' date +"<%= format %>"} ${alignr} [<%= times.last.split('/').last %>]
 
-${color 859900}SYSTEM ${hr 2}$color
 Hostname: ${alignr} $nodename
-Kernel: ${alignr}  $kernel on $machine
-Battery: (${exec ~/.conky/scripts/battery.sh state}) ${alignr} ${exec ~/.conky/scripts/battery.sh float}%
-${battery_bar}
+Kernel: ${alignr} $kernel on $machine
+Uptime: ${alignr} ${exec uptime | grep -oP '(?<=up\s)(.(?!\s\s))+'} up
 
-${color dc322f}CPU ${hr 2}$color
+${color 859900}BATTERY (${exec ~/.conky/scripts/battery.sh float}%) ${hr 2}$color
+State: ${alignr} ${exec ~/.conky/scripts/battery.sh state} (${battery_time})
+${battery_bar 15}
+
+${color dc322f}CPU (${freq}MHz) (${exec ~/.conky/scripts/temperature.sh conky}C) ${hr 2}$color
 Fan speed: ${exec ~/.conky/scripts/fan.sh} ${execbar ~/.conky/scripts/fan.sh conky}
-${freq}MHz  Load: ${loadavg}  Temp: ${exec ~/.conky/scripts/temperature.sh conky}
-
 ${cpugraph eee8d5 dc322f}
 $cpubar
 
-${color 268bd2}MEMORY ${hr 2}$color
+${color 268bd2}MEMORY (${memperc}%) ${hr 2}$color
 ${memgraph eee8d5 268bd2}
-RAM:   ${lua_parse format %3.0f  $memperc}%   ${membar 6}$color
-Swap:  ${lua_parse format %3.0f $swapperc}%   ${swapbar 6}$color
- 
-${color b58900}DISK ${hr 2}$color
-Root:  ${fs_used_perc /}%   ${fs_bar 6 /}
-Boot:  ${fs_used_perc /boot/efi}%   ${fs_bar 6 /boot/efi}
-I/O: $diskio ${diskiograph eee8d5 b58900}
+$membar
 
-<% nets.reject {|n| n[:iface] =~ /^(docker|lo)/i}.each do |n|
-%>${color 6c71c4}<%= n[:kind].upcase %> (${addr <%= n[:iface] %>}) ${hr 2}$color<%
+${color b58900}DISK (${diskio}/s) ${hr 2}$color
+${diskiograph eee8d5 b58900}
+<% maxlen = disks.map do |n,d| n.length end.max + 1
+disks.each do |name, dev| %><%=
+  "#{name.capitalize}:".ljust(maxlen)
+  %>${exec ~/.conky/scripts/df.sh <%= dev %>}% ${fs_bar 6 <%= dev %>}
+<% end
+
+nets.reject {|n| n[:iface] =~ /^(docker|lo)/i}.each do |n| %>
+${color 6c71c4}<%= n[:kind].upcase %> (${addr <%= n[:iface] %>}) ${hr 2}$color<%
   if n[:kind] == 'wifi' %>
 Network: ${wireless_essid <%= n[:iface] %>} ${alignr}${wireless_bitrate <%= n[:iface] %>}
-Signal: ${wireless_link_qual_perc <%= n[:iface] %>} ${wireless_link_bar <%= n[:iface] %>}<%
+Signal: ${wireless_link_qual_perc <%= n[:iface] %>}${wireless_link_bar <%= n[:iface] %>}<%
   end %>
 Down: $color${downspeed <%= n[:iface] %>}/s ${alignr}Up: ${upspeed <%= n[:iface] %>}/s
 ${downspeedgraph <%= n[:iface] %> 25,140 eee8d5 d33682} ${alignr}${upspeedgraph <%= n[:iface] %> 25,140 eee8d5 2aa198}$color
 Total: ${totaldown <%= n[:iface] %>} ${alignr}Total: ${totalup <%= n[:iface] %>}
 
 <% end %>
-

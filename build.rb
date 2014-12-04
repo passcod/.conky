@@ -20,9 +20,18 @@ def times
 end
 
 def nets
-  `nmcli dev`.split("\n").grep(/\sconnected/).map { |conn|
+  `nmcli dev`.split("\n").grep(/\sconnect/).map { |conn|
     conn = conn.split
-    {iface: conn[0], kind:  conn[1]}
+    {iface: conn[0], kind: conn[1]}
+  }
+end
+
+def disks
+  {
+    efi:    '/boot/efi',
+    root:   '/',
+    home:   '/home',
+    docker: '/var/lib/docker'
   }
 end
 
