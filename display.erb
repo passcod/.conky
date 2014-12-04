@@ -31,7 +31,7 @@ nets.reject {|n| n[:iface] =~ /^(docker|lo)/i}.each do |n| %>
 ${color 6c71c4}<%= n[:kind].upcase %> (${addr <%= n[:iface] %>}) ${hr 2}$color<%
   if n[:kind] == 'wifi' %>
 Network: ${wireless_essid <%= n[:iface] %>} ${alignr}${wireless_bitrate <%= n[:iface] %>}
-Signal: ${wireless_link_qual_perc <%= n[:iface] %>}${wireless_link_bar <%= n[:iface] %>}<%
+${wireless_link_bar <%= n[:iface] %>}<%
   end %>
 Down: $color${downspeed <%= n[:iface] %>}/s ${alignr}Up: ${upspeed <%= n[:iface] %>}/s
 ${downspeedgraph <%= n[:iface] %> 25,140 eee8d5 d33682} ${alignr}${upspeedgraph <%= n[:iface] %> 25,140 eee8d5 2aa198}$color
