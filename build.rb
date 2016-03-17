@@ -12,27 +12,32 @@ def tz
 end
 
 def times
-  if tz == 'Pacific/Auckland'
-    [tz, 'Europe/Paris']
-  else
-    [tz, 'Pacific/Auckland']
-  end
+	[tz]
 end
 
 def nets
-  `nmcli dev`.split("\n").grep(/\sconnect/).map { |conn|
+  list = `nmcli dev`.split("\n")
+  list.shift
+  list.map { |conn|
     conn = conn.split
     {iface: conn[0], kind: conn[1]}
+  }.reject { |conn|
+    conn[:kind] =~ /bridge/ || conn[:iface] =~ /veth|^lo$/
   }
 end
 
 def disks
   {
-    efi:    '/boot/efi',
     root:   '/',
-    home:   '/home',
-    docker: '/var/lib/docker'
+    code:   '/srv',
   }
+end
+
+def repos
+	[
+		'/srv/scadafarm',
+		'/srv/sidewinder'
+	]
 end
 
 rc = %w[lua config display]

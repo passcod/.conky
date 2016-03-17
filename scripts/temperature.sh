@@ -1,7 +1,7 @@
 #!/bin/zsh
 
-#SENSOR="Core 0"
-SENSOR=TCXC
+SENSOR="Core 0"
+#SENSOR=TCXC
 
 if [ -z "$1" ]; then
   echo -n "∆ "

@@ -1,40 +1,34 @@
 TEXT<% format = "%a %b %e %H:%M:%S" %>
-${color}${exec date +"<%= format %>"} ${alignr} [Local]
-${exec TZ='<%= times.last %>' date +"<%= format %>"} ${alignr} [<%= times.last.split('/').last %>]
+${color}${exec date +"<%= format %>"} ${alignr} [Here]
+${color}${exec TZ='UTC' date +"<%= format %>"} ${alignr} [UTC]
 
 Hostname: ${alignr} $nodename
 Kernel: ${alignr} $kernel on $machine
 Uptime: ${alignr} ${exec uptime | grep -oP '(?<=up\s)(.(?!\s\s))+'} up
 
-${color 859900}BATTERY (${exec ~/.conky/scripts/battery.sh float}%) ${hr 2}$color
-State: ${alignr} ${exec ~/.conky/scripts/battery.sh state} (${battery_time})
-${battery_bar 15}
-
 ${color dc322f}CPU (${freq}MHz) (${exec ~/.conky/scripts/temperature.sh conky}C) ${hr 2}$color
-Fan speed: ${exec ~/.conky/scripts/fan.sh} ${execbar ~/.conky/scripts/fan.sh conky}
 ${cpugraph eee8d5 dc322f}
 $cpubar
 
 ${color 268bd2}MEMORY (${memperc}%) ${hr 2}$color
 ${memgraph eee8d5 268bd2}
-$membar
+Swap: ${swapperc}% ${swapbar}
 
 ${color b58900}DISK (${diskio}/s) ${hr 2}$color
 ${diskiograph eee8d5 b58900}
 <% maxlen = disks.map do |n,d| n.length end.max + 1
 disks.each do |name, dev| %><%=
   "#{name.capitalize}:".ljust(maxlen)
-  %>${exec ~/.conky/scripts/df.sh <%= dev %>}% ${fs_bar 6 <%= dev %>}
+  %>${exec ~/.conky/scripts/df.sh <%= dev %>}% ${fs_bar <%= dev %>}
 <% end
 
 nets.reject {|n| n[:iface] =~ /^(docker|lo)/i}.each do |n| %>
 ${color 6c71c4}<%= n[:kind].upcase %> (${addr <%= n[:iface] %>}) ${hr 2}$color<%
   if n[:kind] == 'wifi' %>
-Network: ${wireless_essid <%= n[:iface] %>} ${alignr}${wireless_bitrate <%= n[:iface] %>}
-${wireless_link_bar <%= n[:iface] %>}<%
+Network: ${wireless_essid <%= n[:iface] %>} ${alignr}${wireless_bitrate <%= n[:iface] %>}<%
   end %>
 Down: $color${downspeed <%= n[:iface] %>}/s ${alignr}Up: ${upspeed <%= n[:iface] %>}/s
 ${downspeedgraph <%= n[:iface] %> 25,140 eee8d5 d33682} ${alignr}${upspeedgraph <%= n[:iface] %> 25,140 eee8d5 2aa198}$color
 Total: ${totaldown <%= n[:iface] %>} ${alignr}Total: ${totalup <%= n[:iface] %>}
-
-<% end %>
+<% end
+%>
