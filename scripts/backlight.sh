@@ -6,7 +6,7 @@ max=$($helper --get-max-brightness)
 per=$(dc -e "3k $cur $max /100*p")
 
 if [[ -z "$1" ]]; then
-  echo $per | cut -c-2
+  echo $per
 else
-  echo $per | cut -c-4
+  echo $per | cut -d. -f1
 fi

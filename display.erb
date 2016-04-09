@@ -1,14 +1,9 @@
-TEXT<% format = "%a %b %e %H:%M:%S" %>
-${color}${exec date +"<%= format %>"} ${alignr} [Here]
-${color}${exec TZ='UTC' date +"<%= format %>"} ${alignr} [UTC]
+TEXT
+(Here) ${exec date +"%d-%m %T"} ${alignr} ${exec TZ='UTC' date +"%T %d-%m"} (UTC)
+$nodename ${alignr} ${exec uptime | grep -oP '(?<=up\s)(.(?!\s\s))+'} up
 
-Hostname: ${alignr} $nodename
-Kernel: ${alignr} $kernel on $machine
-Uptime: ${alignr} ${exec uptime | grep -oP '(?<=up\s)(.(?!\s\s))+'} up
-
-${color 859900}BATTERY (${exec ~/.conky/scripts/battery.sh float}%) ${hr 2}$color
-State: ${alignr} ${exec ~/.conky/scripts/battery.sh state} (${battery_time BAT1})
-${battery_bar 15 BAT1}
+${color 859900}BATTERY (${exec ~/.conky/scripts/battery.sh float}%)${alignr}${exec ~/.conky/scripts/battery.sh state} (${battery_time BAT1})
+$color${battery_bar 15 BAT1}
 
 ${color dc322f}CPU (${freq}MHz) (${exec ~/.conky/scripts/temperature.sh conky}°C) ${hr 2}$color
 ${cpugraph eee8d5 dc322f}
@@ -32,7 +27,7 @@ ${color 6c71c4}<%= n[:kind].upcase %> (${addr <%= n[:iface] %>}) ${hr 2}$color<%
 Network: ${wireless_essid <%= n[:iface] %>} ${alignr}${wireless_bitrate <%= n[:iface] %>}<%
   end %>
 Down: $color${downspeed <%= n[:iface] %>}/s ${alignr}Up: ${upspeed <%= n[:iface] %>}/s
-${downspeedgraph <%= n[:iface] %> 25,140 eee8d5 d33682}${alignr}${upspeedgraph <%= n[:iface] %> 25,140 eee8d5 2aa198}$color
+${downspeedgraph <%= n[:iface] %> 20,140 eee8d5 d33682}${alignr}${upspeedgraph <%= n[:iface] %> 20,140 eee8d5 2aa198}$color
 Total: ${totaldown <%= n[:iface] %>} ${alignr}Total: ${totalup <%= n[:iface] %>}
 <% end %>
 ${color 859900}VOLUME (${exec ~/.conky/scripts/volume.sh}%) ${hr 2}$color
