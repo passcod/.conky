@@ -28,16 +28,13 @@ end
 
 def disks
   {
+    efi:    '/boot/efi',
     root:   '/',
-    code:   '/srv',
+    home:   '/home',
+    btrfs:  '/mnt/btrfs',
+    fat:    '/mnt/interops',
+    win:    '/mnt/windows'
   }
-end
-
-def repos
-	[
-		'/srv/scadafarm',
-		'/srv/sidewinder'
-	]
 end
 
 rc = %w[lua config display]
