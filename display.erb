@@ -1,9 +1,9 @@
 TEXT
-(Here) ${exec date +"%d-%m %T"} ${alignr} ${exec TZ='UTC' date +"%T %d-%m"} (UTC)
-$nodename ${alignr} ${exec uptime | grep -oP '(?<=up\s)(.(?!\s\s))+'} up
+${color 268bd2}(Here) ${exec date +"%d-%m %T"} ${alignr} ${color 6c71c4}${exec TZ='UTC' date +"%T %d-%m"} (UTC)
+$color$nodename ${alignr} ${exec uptime | grep -oP '(?<=up\s)(.(?!\s\s))+'} up
 
-${color 859900}BATTERY (${exec ~/.conky/scripts/battery.sh float}%)${alignr}${exec ~/.conky/scripts/battery.sh state} (${battery_time BAT1})
-$color${battery_bar 15 BAT1}
+${color 859900}BATTERY (${exec ~/.conky/scripts/battery.sh float}%)${alignr}${exec ~/.conky/scripts/battery.sh state} (${battery_time BAT0})
+$color${battery_bar 15 BAT0}
 
 ${color dc322f}CPU (${freq}MHz) (${exec ~/.conky/scripts/temperature.sh conky}°C) ${hr 2}$color
 ${cpugraph eee8d5 dc322f}

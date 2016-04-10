@@ -28,12 +28,8 @@ end
 
 def disks
   {
-    efi:    '/boot/efi',
     root:   '/',
-    home:   '/home',
-    btrfs:  '/mnt/btrfs',
-    fat:    '/mnt/interops',
-    win:    '/mnt/windows'
+    code:   '/srv'
   }
 end
 

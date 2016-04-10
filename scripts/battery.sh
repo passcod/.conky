@@ -1,16 +1,21 @@
 #!/bin/zsh
 
+battery=0
+battery_file=/sys/class/power_supply/BAT$battery/uevent
+
+battery_var() {
+  grep "POWER_SUPPLY_$1" "$battery_file" | cut -d\= -f2
+}
+
 battery_permil() {
-  source /sys/class/power_supply/BAT1/uevent
-  now=$POWER_SUPPLY_CHARGE_NOW
-  full=$POWER_SUPPLY_CHARGE_FULL
+  now=$(battery_var CHARGE_NOW)
+  full=$(battery_var CHARGE_FULL)
   hundi=$(dc -e "3k $full $now r/1000*p")
   echo $hundi | cut -d. -f1
 }
 
 battery_state() {
-  source /sys/class/power_supply/BAT1/uevent
-  echo $POWER_SUPPLY_STATUS
+  echo $(battery_var STATUS)
 }
 
 
