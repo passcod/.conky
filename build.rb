@@ -33,7 +33,6 @@ def disks
     home:   '/home',
     btrfs:  '/mnt/btrfs',
     fat:    '/mnt/interops',
-    win:    '/mnt/windows'
   }
 end
 
