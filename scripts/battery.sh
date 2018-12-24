@@ -1,7 +1,9 @@
 #!/bin/zsh
 
+T453X() { true }
+
 battery_permil() {
-  source /sys/class/power_supply/BAT1/uevent
+  source /sys/class/power_supply/BAT0/uevent
   now=$POWER_SUPPLY_CHARGE_NOW
   full=$POWER_SUPPLY_CHARGE_FULL
   hundi=$(dc -e "3k $full $now r/1000*p")
@@ -9,7 +11,7 @@ battery_permil() {
 }
 
 battery_state() {
-  source /sys/class/power_supply/BAT1/uevent
+  source /sys/class/power_supply/BAT0/uevent
   echo $POWER_SUPPLY_STATUS
 }
 

@@ -1,13 +1,17 @@
 # Window
 gap_x 0
 gap_y 0
-minimum_size 320 772
+minimum_size 480 772
+#minimum_size 250 5 # Minimum size of text area
 own_window yes
-own_window_colour 2f343f
+#own_window_colour 2f343f
+own_window_colour 232a36
 #own_window_colour 002b36 # Solarized
-own_window_hints below,skip_pager
+own_window_hints undecorated
+#own_window_hints below,skip_pager
 #own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 #own_window_transparent yes
+#own_window_type utility
 own_window_type normal
 
 # Text
@@ -18,18 +22,17 @@ text_buffer_size 2048
 uppercase no
 use_xft yes
 #xftalpha 0.8
-xftfont UbuntuMono:size=10
+xftfont Iosevka:size=12
 
 # Other
-alignment middle_right
-border_inner_margin 10
+alignment top_right
+border_inner_margin 32
 border_outer_margin 0
 border_width 0
-default_bar_size 0 6
-default_graph_size 0 20
+default_bar_size 0 32
+default_graph_size 0 96
 double_buffer yes
-draw_shades no
-#minimum_size 250 5 # Minimum size of text area
+draw_shades yes
 stippled_borders 5
 update_interval 1
 use_spacer left

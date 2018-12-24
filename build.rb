@@ -12,7 +12,7 @@ def tz
 end
 
 def times
-	[tz]
+  [tz]
 end
 
 def nets
@@ -22,7 +22,7 @@ def nets
     conn = conn.split
     {iface: conn[0], kind: conn[1]}
   }.reject { |conn|
-    conn[:kind] =~ /bridge/ || conn[:iface] =~ /veth|^lo$/
+    conn[:kind] =~ /(bridge|tun)/ || conn[:iface] =~ /(veth|^lo$)/
   }
 end
 
@@ -31,8 +31,6 @@ def disks
     efi:    '/boot/efi',
     root:   '/',
     home:   '/home',
-    btrfs:  '/mnt/btrfs',
-    fat:    '/mnt/interops',
   }
 end
 
